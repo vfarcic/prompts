@@ -43,19 +43,36 @@ Convert the PRD title to a branch-friendly name:
 
 ### Step 4: Create the Worktree
 
-Run the `create-worktree.sh` script from this skill's directory:
+Run the following commands directly. Replace `[branch-name]` with the name generated in Step 3.
+
+1. **Get the repo name and compute the worktree path:**
 ```bash
-.claude/skills/worktree-prd/create-worktree.sh [branch-name]
+repo_name=$(basename "$(git rev-parse --show-toplevel)")
+worktree_path="../${repo_name}-[branch-name]"
 ```
 
-The script will:
-- Check if the branch or worktree already exists (exits with error if so)
-- Get the repository name dynamically
-- Create the worktree at `../${repo_name}-${branch-name}`
-- Initialize submodules in the new worktree
-- Output the path and instructions for the user
+2. **Validate** — check that the branch, worktree path, and worktree registration don't already exist:
+```bash
+git show-ref --verify --quiet "refs/heads/[branch-name]" && echo "ERROR: Branch already exists"
+test -d "${worktree_path}" && echo "ERROR: Worktree path already exists"
+git worktree list | grep -q "[branch-name]" && echo "ERROR: Worktree already registered"
+```
+If any check fails, inform the user and ask how to proceed.
 
-If the script fails due to existing branch/worktree, inform the user and ask how to proceed.
+3. **Create the worktree** branching from `main`:
+```bash
+git worktree add "${worktree_path}" -b [branch-name] main
+```
+
+4. **Initialize submodules** in the new worktree:
+```bash
+cd "${worktree_path}" && git submodule update --init --recursive
+```
+
+5. **Report** the result to the user:
+   - Worktree path: `${worktree_path}`
+   - Branch: `[branch-name]`
+   - Next step: `cd ${worktree_path}`
 
 ## Guidelines
 
