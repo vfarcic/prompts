@@ -77,7 +77,9 @@ fi
 
 # --- Create worktree ---
 
-if ! output=$(git worktree add "${worktree_path}" -b "${branch_name}" main 2>&1); then
+default_branch=$(git symbolic-ref refs/remotes/origin/HEAD 2>/dev/null | sed 's@^refs/remotes/origin/@@' || echo "main")
+
+if ! output=$(git worktree add "${worktree_path}" -b "${branch_name}" "${default_branch}" 2>&1); then
   echo "ERROR=true"
   echo "BRANCH_NAME=${branch_name}"
   echo "WORKTREE_PATH=${worktree_path}"
