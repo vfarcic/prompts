@@ -171,6 +171,7 @@ Share the output.
 - **Keep sections small** - One concept per chunk for easy review
 - **Use user language** - Avoid internal/developer terminology
 - **Include error cases** - Document what happens when things go wrong
+- **Full flags in commands** - Always use long-form flags (e.g., `--filename` not `-f`, `--namespace` not `-n`, `--output` not `-o`). Full flags are more self-documenting for users unfamiliar with the tools.
 
 ## File Locations
 
