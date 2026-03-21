@@ -85,7 +85,7 @@ fi
 
 # --- Check HEAD for skip-ci ---
 
-head_message=$(git log -1 --format="%s" HEAD 2>/dev/null || echo "")
+head_message=$(git log -1 --format="%B" HEAD 2>/dev/null || echo "")
 skip_ci=false
 if echo "$head_message" | grep -qiE '\[(skip ci|ci skip|no ci)\]'; then
   skip_ci=true
