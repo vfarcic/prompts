@@ -63,6 +63,6 @@ Show the user:
 
 - **Don't run during PR workflow**: This is a separate release activity
 - **Review fragments first**: Make sure all fragments are accurate before tagging
-- **Use semantic versioning**: Follow semver strictly based on fragment types
+- **Use semantic versioning**: Follow semver strictly based on fragment types. While the project is pre-1.0 (`v0.x`), the minor digit is the compatibility boundary, so `breaking` fragments bump the minor and `feature`/`bugfix` fragments are patch releases; from `1.0` onward, standard semver applies (`breaking`→major, `feature`→minor, `bugfix`→patch). The `analyze.sh` output already reflects this.
 - **Brief tag message**: Summarize the release in 1-2 sentences
 - **Never tag [skip ci] commits**: Always create a preparation commit first
